@@ -15,7 +15,7 @@ pipeline {
       steps {
         parallel(
           "Build Database XE 11.2.0.2": {
-            dir(path: 'OracleDatabase/dockerfiles') {
+            dir(path: 'OracleDatabase/SingleInstance/dockerfiles') {
               sh 'if [ ! -f 11.2.0.2/oracle-xe-11.2.0-1.0.x86_64.rpm.zip ]; then cp /software/Oracle/Database/oracle-xe-11.2.0-1.0.x86_64.rpm.zip 11.2.0.2/oracle-xe-11.2.0-1.0.x86_64.rpm.zip; fi'
               sh 'sudo ./buildDockerImage.sh -v 11.2.0.2 -x'
               sh 'docker tag oracle/database:11.2.0.2-xe localhost:5000/oracle/database:11.2.0.2-xe'
