@@ -1,7 +1,7 @@
 pipeline {
   agent {
     node {
-      label 'localhost_vagrant'
+      label 'docker_in_docker'
     }
 
   }
