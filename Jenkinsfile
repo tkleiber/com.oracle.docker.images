@@ -21,7 +21,7 @@ pipeline {
             dir(path: 'oracle/OracleDatabase/SingleInstance/dockerfiles') {
               sh 'ls -la'
               sh 'if [ ! -f 18.4.0/oracle-database-xe-18c-1.0-1.x86_64.rpm ]; then cp /software/Oracle/Database/oracle-database-xe-18c-1.0-1.x86_64.rpm 18.4.0/oracle-database-xe-18c-1.0-1.x86_64.rpm; fi'
-              sh './buildDockerImage.sh -v 18.4.0 -x'
+              sh './buildContainerImage.sh -v 18.4.0 -x'
               sh 'docker tag oracle/database:18.4.0-xe localhost:5000/oracle/database:18.4.0-xe'
               sh 'docker push localhost:5000/oracle/database:18.4.0-xe'
             }
