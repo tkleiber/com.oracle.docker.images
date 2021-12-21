@@ -8,6 +8,7 @@ pipeline {
     stage('Get Oracle Docker Sources') {
       steps {
         checkout([$class: 'GitSCM', branches: [[name: 'origin/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', depth: 0, noTags: true, reference: '', shallow: false, timeout: 30]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github_id', url: 'https://github.com/oracle/docker-images.git']]])
+         sh 'ls -la'
       }
     }
     stage('Build Oracle Docker Images') {
