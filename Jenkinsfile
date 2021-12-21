@@ -4,6 +4,9 @@ pipeline {
       label 'docker_in_docker'
     }
   }
+  options {
+    buildDiscarder logRotator(numToKeepStr: '1')
+  }
   stages {
     stage('Get Oracle Docker Sources') {
       steps {
