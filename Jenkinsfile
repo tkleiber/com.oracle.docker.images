@@ -10,7 +10,7 @@ pipeline {
   stages {
     stage('Get Oracle Docker Sources') {
       steps {
-        checkout([$class: 'GitSCM', branches: [[name: '*/master'], [name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github_id', url: 'https://github.com/tkleiber/com.oracle.docker.images.oracle.database.xe.git'], [credentialsId: 'github_id', url: 'https://github.com/oracle/docker-images.git']]])
+        checkout([$class: 'GitSCM', branches: [[name: '*/master'], [name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github_id', name: 'tkleiber', url: 'https://github.com/tkleiber/com.oracle.docker.images.oracle.database.xe.git'], [credentialsId: 'github_id', name: 'oracle', url: 'https://github.com/oracle/docker-images.git']]])
          sh 'ls -la'
       }
     }
