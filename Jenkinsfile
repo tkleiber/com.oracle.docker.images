@@ -4,10 +4,13 @@ pipeline {
       label 'docker_in_docker'
     }
   }
+  options {
+    skipDefaultCheckout()
+  }
   stages {
     stage('Get Oracle Docker Sources') {
       steps {
-        checkout([$class: 'GitSCM', branches: [[name: 'origin/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', depth: 0, noTags: true, reference: '', shallow: false, timeout: 30]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github_id', url: 'https://github.com/oracle/docker-images.git']]])
+        checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'github_id', url: 'https://github.com/tkleiber/com.oracle.docker.images.oracle.database.xe.git'], [credentialsId: 'github_id', url: 'https://github.com/oracle/docker-images.git']]])
          sh 'ls -la'
       }
     }
