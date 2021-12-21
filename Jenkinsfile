@@ -15,6 +15,7 @@ pipeline {
         stage('Build Database XE 18.4.0') {
           steps {
             dir(path: 'OracleDatabase/SingleInstance/dockerfiles') {
+              sh 'la -la 18.4.0'
               sh 'if [ ! -f 18.4.0/oracle-database-xe-18c-1.0-1.x86_64.rpm ]; then cp /software/Oracle/Database/oracle-database-xe-18c-1.0-1.x86_64.rpm 18.4.0/oracle-database-xe-18c-1.0-1.x86_64.rpm; fi'
               sh 'sudo ./buildDockerImage.sh -v 18.4.0 -x'
               sh 'docker tag oracle/database:18.4.0-xe localhost:5000/oracle/database:18.4.0-xe'
