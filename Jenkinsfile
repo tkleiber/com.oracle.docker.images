@@ -11,9 +11,9 @@ pipeline {
       }
     }
     stage('Build Oracle Docker Images') {
-      steps {
-        parallel(
-          stage('Build Database XE 18.4.0') {
+      parallel {
+        stage('Build Database XE 18.4.0') {
+          steps {
             dir(path: 'OracleDatabase/SingleInstance/dockerfiles') {
               sh 'if [ ! -f 18.4.0/oracle-database-xe-18c-1.0-1.x86_64.rpm ]; then cp /software/Oracle/Database/oracle-database-xe-18c-1.0-1.x86_64.rpm 18.4.0/oracle-database-xe-18c-1.0-1.x86_64.rpm; fi'
               sh 'sudo ./buildDockerImage.sh -v 18.4.0 -x'
@@ -21,19 +21,18 @@ pipeline {
               sh 'docker push localhost:5000/oracle/database:18.4.0-xe'
             }
           }
-        )
+        }
       }
     }
     stage('Cleanup') {
-      steps {
-        parallel(
-          stage ('CleanUp Database XE 18.4.0') {
+      parallel {
+        stage ('CleanUp Database XE 18.4.0') {
+          steps {
             sh 'docker rmi --force localhost:5000/oracle/database:18.4.0-xe'
             sh 'docker rmi --force oracle/database:18.4.0-xe'
           }
-        )
+        }
       }
     }
-
   }
 }
