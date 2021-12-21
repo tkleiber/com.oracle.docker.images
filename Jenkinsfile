@@ -5,7 +5,7 @@ pipeline {
     }
   }
   parameters {
-    choice choices: ['11.2.0.2', '18.4.0', '21.3.0'], description: 'XE Version', name: 'XE_VERSION'
+    choice choices: ['21.3.0', '18.4.0', '11.2.0.2'], description: 'XE Version', name: 'XE_VERSION'
   }
   stages {
     stage('Get Oracle Docker Sources') {
