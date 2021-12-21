@@ -4,9 +4,6 @@ pipeline {
       label 'docker_in_docker'
     }
   }
-  parameters {
-    choice choices: ['21.3.0', '18.4.0', '11.2.0.2'], description: 'XE Version', name: 'XE_VERSION'
-  }
   stages {
     stage('Get Oracle Docker Sources') {
       steps {
@@ -16,12 +13,12 @@ pipeline {
     stage('Build Oracle Docker Images') {
       steps {
         parallel(
-          "Build Database XE 11.2.0.2": {
+          stage('Build Database XE 18.4.0') {
             dir(path: 'OracleDatabase/SingleInstance/dockerfiles') {
-              sh 'if [ ! -f "${XE_VERSION}"/oracle-xe-11.2.0-1.0.x86_64.rpm.zip ]; then cp /software/Oracle/Database/oracle-xe-11.2.0-1.0.x86_64.rpm.zip "${XE_VERSION}"/oracle-xe-11.2.0-1.0.x86_64.rpm.zip; fi'
-              sh 'sudo ./buildDockerImage.sh -v "${XE_VERSION}" -x'
-              sh 'docker tag oracle/database:"${XE_VERSION}"-xe localhost:5000/oracle/database:"${XE_VERSION}"-xe'
-              sh 'docker push localhost:5000/oracle/database:"${XE_VERSION}"-xe'
+              sh 'if [ ! -f 18.4.0/oracle-database-xe-18c-1.0-1.x86_64.rpm ]; then cp /software/Oracle/Database/oracle-database-xe-18c-1.0-1.x86_64.rpm 18.4.0/oracle-database-xe-18c-1.0-1.x86_64.rpm; fi'
+              sh 'sudo ./buildDockerImage.sh -v 18.4.0 -x'
+              sh 'docker tag oracle/database:18.4.0-xe localhost:5000/oracle/database:18.4.0-xe'
+              sh 'docker push localhost:5000/oracle/database:18.4.0-xe'
             }
           }
         )
@@ -30,9 +27,9 @@ pipeline {
     stage('Cleanup') {
       steps {
         parallel(
-          "CleanUp Database XE 11.2.0.2": {
-            sh 'docker rmi --force localhost:5000/oracle/database:"${XE_VERSION}"-xe'
-            sh 'docker rmi --force oracle/database:"${XE_VERSION}"-xe'
+          stage ('CleanUp Database XE 18.4.0') {
+            sh 'docker rmi --force localhost:5000/oracle/database:18.4.0-xe'
+            sh 'docker rmi --force oracle/database:18.4.0-xe'
           }
         )
       }
